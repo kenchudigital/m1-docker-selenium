@@ -1,12 +1,15 @@
-FROM python:3.10.9-bullseye
+FROM amd64/ubuntu:latest
 
 COPY chromedriver_linux64/chromedriver chromedriver_linux64/chromedriver
 COPY chromedriver_linux64/chromedriver usr/bin/chromedriver
 
 # install google chrome
+RUN apt clean
+RUN apt-get update
+RUN apt-get install python3 -y
 RUN apt update
 RUN apt upgrade
-RUN apt install wget
+RUN apt install wget -y
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 
 RUN apt-get install gdebi-core -y
@@ -33,7 +36,8 @@ RUN google-chrome --version
 
 COPY main.py main.py
 COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+# RUN pip3 install -r requirements.txt
 
-
-CMD [ "python3",  "main.py" ]
+RUN apt install nano
+RUN apt install python3.10-venv -y
+RUN apt-get install xvfb -y
